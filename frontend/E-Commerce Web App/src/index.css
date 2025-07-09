@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; 
+
+
+@layer base {
+  html {
+    font-family: 'Inter', sans-serif;
+  }
+
+  body {
+    background-color: #f9fafb; /* Light background color */
+    transition: background-color 0.3s;
+  }
+
+  .dark body {
+    background-color: #1f2937; /* Dark background color */
+  }
+}
