@@ -9,13 +9,14 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [role , setRole] = useState('')
 
   const handleSubmit = async e => {
     e.preventDefault();
     setError('');
 
     try {
-      await axios.post('/api/auth/', { name, email, password });
+      await axios.post('/api/auth/', { name, email, password , role });
       navigate('/login');
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed');

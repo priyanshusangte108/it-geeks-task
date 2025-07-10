@@ -19,7 +19,7 @@ const Footer = () => {
         </button>
 
         {/* Copyright Notice */}
-        <div className="text-sm">
+        <div className="bg-gray-100 dark:bg-gray-800 p-4 text-center text-sm shadow-inner">
           &copy; 2025 E-Commerce Store. All Rights Reserved.
         </div>
       </div>

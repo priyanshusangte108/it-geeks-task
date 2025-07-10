@@ -9,3 +9,4 @@ const AuthProvider = ({Children}) => {
    </AuthContext.Provider>
   )
 }
+ export default AuthProvider
