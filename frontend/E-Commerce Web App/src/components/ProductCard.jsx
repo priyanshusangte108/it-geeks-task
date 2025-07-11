@@ -1,15 +1,17 @@
 
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const ProductCard = ({ _id, title, description, price, image }) => {
+const ProductCard = ({ id, title, description, price, image }) => {
   const imgSrc = image?.startsWith("http") ? image : `http://localhost:5000${image}`;
+const navigate= useNavigate();
 
+console.log('-------id', id)
   return (
     <div
-      key={_id}
       style={{ breakInside: "avoid", marginBottom: "1.5rem" }}
-      className="bg-white rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col max-w-[250px] mx-auto"
+      className="bg-white rounded-lg shadow-[0_4px_10px_rgba(0,0,0,0.7)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.9)] transition-shadow duration-300 flex flex-col max-w-[250px] mx-auto"
     >
       {/* Product Image */}
       <div className="w-full pt-[100%] relative rounded-t-lg overflow-hidden bg-gray-50">
@@ -29,7 +31,12 @@ const ProductCard = ({ _id, title, description, price, image }) => {
 
         <div className="mt-auto flex items-center justify-between">
           <span className="text-indigo-600 font-bold text-lg">${price.toFixed(2)}</span>
-          <button type="button" className="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition">
+          <button
+          onClick={() => 
+      navigate(`/products/${id}`)}
+            type="button"
+            className="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition"
+          >
             Add to Cart
           </button>
         </div>
@@ -39,3 +46,11 @@ const ProductCard = ({ _id, title, description, price, image }) => {
 };
 
 export default ProductCard;
+
+
+
+
+
+
+
+

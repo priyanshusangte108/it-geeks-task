@@ -13,11 +13,11 @@ const ImageSection = () => {
   ];
 
   return (
-    <div className="flex justify-center gap-6 flex-wrap mb-16">
+    <div className="flex justify-center gap-20 flex-wrap mb-16">
       {images.map((image, index) => (
         <div
           key={index}
-          className="relative w-[250px] h-[300px] overflow-hidden group transition-all duration-500 ease-in-out"
+          className="relative w-[300px] h-[350px] overflow-hidden group transition-all duration-500 ease-in-out"
         >
           <img
             src={image.src}
@@ -26,7 +26,6 @@ const ImageSection = () => {
               group-hover:w-[180px] group-hover:h-[300px] group-hover:rounded-full
               transition-all duration-500"
           />
-          {/* Text Overlay */}
           <div className="absolute inset-0 flex items-center justify-center bg-black/30 text-white text-lg font-semibold">
             <span>{image.label}</span>
           </div>

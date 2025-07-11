@@ -10,7 +10,7 @@ const VideoSection = () => {
       </video>
 
       {/* Overlay Text on Video */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-3xl font-bold text-center px-6">
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  text-white text-3xl font-bold text-center px-6">
         <h1>Welcome to Our E-Commerce Store</h1>
         <p>Discover amazing products just for you!</p>
       </div>

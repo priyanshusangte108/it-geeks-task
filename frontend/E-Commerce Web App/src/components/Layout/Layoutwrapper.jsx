@@ -1,6 +1,6 @@
 // src/components/Layout/LayoutWrapper.jsx
 import React from 'react';
-import Header from './Header';
+// import Header from './Header';
 import Footer from './Footer';
 import Sidebar from './Sidebar';
 
@@ -8,7 +8,7 @@ const Layoutwrapper = ({ children }) => {
   return (
     <div className="flex flex-col min-h-screen bg-lightBackground dark:bg-darkBackground transition-all duration-300">
       {/* Header Section */}
-      <Header />
+      {/* <Header /> */}
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar Section */}

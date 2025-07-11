@@ -12,17 +12,20 @@ const getAllProducts = async(req , res) =>{
     }
 }
 //  single product
-const getAllProductById = async(req , res) => {
-    const {id} = req.params;
-    try {
-        const response = await fetch('https://fakestoreapi.com/products/${id}')
-        const product = await response.json();
-        res.json(product)
-    } catch (error) {
-        res.status(500).json({ message : 'error featching product '})
+const getAllProductById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    // Use backticks for string interpolation!
+    const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+    if (!response.ok) {
+      return res.status(response.status).json({ message: 'Product not found' });
     }
-}
-
+    const product = await response.json();
+    res.json({ product });  // wrap in { product } for consistency
+  } catch (error) {
+    res.status(500).json({ message: 'error fetching product' });
+  }
+};
 //  create new product
 const createProduct = async (req,res) =>{
     const { title , price  , description  , category , image } = req.body
