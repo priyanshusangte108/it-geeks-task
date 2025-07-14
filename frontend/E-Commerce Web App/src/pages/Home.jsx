@@ -1,24 +1,40 @@
 
 
-import { motion } from 'framer-motion';
-import Layoutwrapper from '../components/Layout/Layoutwrapper';
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import { CartContext } from "../../context/CartContext";
 
-const Home = () => {
+const Header = () => {
+  const { cart } = useContext(CartContext);
+  const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
+
   return (
-    <Layoutwrapper>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        className="space-y-6"
-      >
-        <h1 className="text-4xl font-bold text-primary">Welcome to Our E-Commerce Store</h1>
-        <p className="text-lg text-gray-600">
-          Explore our collection of amazing products.
-        </p>
-      </motion.div>
-    </Layoutwrapper>
+    <header className="flex justify-between items-center p-4 bg-white dark:bg-darkBackground shadow-md">
+      <Link to="/dashboard" className="text-xl font-bold text-primary dark:text-white">
+        E-Commerce
+      </Link>
+
+      <div className="flex items-center gap-4">
+        {/* Cart */}
+        <Link to="/cart" className="relative text-gray-700 dark:text-gray-300 text-xl">
+          🛒
+          {totalItems > 0 && (
+            <span className="absolute -top-2 -right-3 bg-red-600 text-white text-xs px-1.5 py-0.5 rounded-full">
+              {totalItems}
+            </span>
+          )}
+        </Link>
+
+        {/* Theme toggle */}
+        <button
+          onClick={() => document.documentElement.classList.toggle("dark")}
+          className="p-2 rounded-md bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300"
+        >
+          Toggle Theme
+        </button>
+      </div>
+    </header>
   );
 };
 
-export default Home;
+export default Header;

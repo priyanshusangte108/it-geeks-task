@@ -13,21 +13,20 @@ const ImageSection = () => {
   ];
 
   return (
-    <div className="flex justify-center gap-20 flex-wrap mb-16">
+    <div className="w-full flex justify-center items-center gap-8 px-6 py-10">
       {images.map((image, index) => (
         <div
           key={index}
-          className="relative w-[300px] h-[350px] overflow-hidden group transition-all duration-500 ease-in-out"
+          className="relative w-[300px] h-[350px] overflow-hidden group transition-all duration-500"
         >
           <img
             src={image.src}
             alt={`image-${index}`}
-            className="w-full h-full object-cover brightness-90 rounded-xl
-              group-hover:w-[180px] group-hover:h-[300px] group-hover:rounded-full
-              transition-all duration-500"
+            className="w-full h-full object-cover brightness-90 rounded-xl transition-all duration-500 ease-in-out
+              group-hover:rounded-full group-hover:w-[250px] group-hover:h-[300px] group-hover:mx-auto"
           />
           <div className="absolute inset-0 flex items-center justify-center bg-black/30 text-white text-lg font-semibold">
-            <span>{image.label}</span>
+            {image.label}
           </div>
         </div>
       ))}

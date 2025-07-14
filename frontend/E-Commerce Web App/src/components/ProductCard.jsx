@@ -1,43 +1,58 @@
 
 
+
+
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const ProductCard = ({ id, title, description, price, image }) => {
-  const imgSrc = image?.startsWith("http") ? image : `http://localhost:5000${image}`;
-const navigate= useNavigate();
+const ProductCard = ({ id, title, description, price, image, images }) => {
+  const navigate = useNavigate();
 
-console.log('-------id', id)
+  const resolveImage = () => {
+    if (Array.isArray(images) && images.length) {
+      const first = images[0];
+      return typeof first === 'object'
+        ? first.url
+        : typeof first === 'string' && first.startsWith('http')
+          ? first
+          : `http://localhost:5000${first}`;
+    }
+
+    if (typeof image === 'string' && image.trim()) {
+      return image.startsWith('http')
+        ? image
+        : `http://localhost:5000${image}`;
+    }
+
+    return 'https://placehold.co/250x250?text=No+Image';
+  };
+
+  const imgSrc = resolveImage();
+
   return (
-    <div
-      style={{ breakInside: "avoid", marginBottom: "1.5rem" }}
-      className="bg-white rounded-lg shadow-[0_4px_10px_rgba(0,0,0,0.7)] hover:shadow-[0_6px_15px_rgba(0,0,0,0.9)] transition-shadow duration-300 flex flex-col max-w-[250px] mx-auto"
-    >
-      {/* Product Image */}
-      <div className="w-full pt-[100%] relative rounded-t-lg overflow-hidden bg-gray-50">
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow hover:shadow-lg overflow-hidden flex flex-col h-full">
+      <div className="w-full h-48 bg-gray-100 overflow-hidden flex items-center justify-center">
         <img
           src={imgSrc}
           alt={title}
-          className="absolute top-1/2 left-1/2 w-[80%] h-[80%] object-contain -translate-x-1/2 -translate-y-1/2 transition-transform duration-300 hover:scale-105"
-          loading="lazy"
-          onError={(e) => (e.target.src = "https://via.placeholder.com/250?text=No+Image")}
+          className="max-w-full max-h-full object-contain"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = 'https://placehold.co/250x250?text=No+Image';
+          }}
         />
       </div>
-
-      {/* Product Content */}
       <div className="p-4 flex flex-col flex-grow">
-        <h5 className="text-md font-semibold mb-2 text-gray-900 line-clamp-2">{title}</h5>
-        <p className="text-gray-700 text-sm flex-grow line-clamp-3 mb-3">{description}</p>
-
-        <div className="mt-auto flex items-center justify-between">
-          <span className="text-indigo-600 font-bold text-lg">${price.toFixed(2)}</span>
+        <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">{title}</h3>
+        <p className="text-sm text-gray-600 dark:text-gray-300 flex-grow line-clamp-3 mb-4">{description}</p>
+        <div className="flex justify-between items-center mt-auto">
+          <span className="text-indigo-600 text-lg font-bold">${price.toFixed(2)}</span>
           <button
-          onClick={() => 
-      navigate(`/products/${id}`)}
-            type="button"
-            className="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition"
+            onClick={() => navigate(`/products/${id}`)}
+            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm rounded-lg"
           >
-            Add to Cart
+            View Details
           </button>
         </div>
       </div>
@@ -46,11 +61,3 @@ console.log('-------id', id)
 };
 
 export default ProductCard;
-
-
-
-
-
-
-
-

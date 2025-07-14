@@ -1,54 +1,24 @@
 
 
+import React from "react";
+import ProductCard from "./ProductCard";
 
-
-// import ProductCard from './ProductCard';
-// import { motion } from 'framer-motion';
-
-// const ProductList = ({ products }) => {
-//   return (
-//     <div className="flex flex-wrap justify-center gap-6">
-//       {products.map((product, index) => (
-//         <motion.div
-//           key={product._id}
-//           initial={{ opacity: 0, y: 20 }}
-//           animate={{ opacity: 1, y: 0 }}
-//           transition={{ duration: 0.3, delay: index * 0.05 }}
-//           whileHover={{ scale: 1.05 }}
-//           className="cursor-pointer flex-shrink-0 w-[30%]"
-//         >
-//           <ProductCard {...product} />
-//         </motion.div>
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default ProductList;
-
-
-
-
-
-
-import ProductCard from './ProductCard';
-import { motion } from 'framer-motion';
 
 const ProductList = ({ products }) => {
-  console.log('---product',products)
+  if (!products || products.length === 0) {
+    return <p className="text-center text-gray-500">No products found.</p>;
+  }
+
   return (
-    <div className="flex flex-wrap justify-center gap-4 mt-10 mb-10"> {/* <-- added mt-10 */}
-      {products.map((product, index) => (
-        <motion.div
-          key={product._id}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: index * 0.05 }}
-          whileHover={{ scale: 1.05 }}
-          className="cursor-pointer flex-shrink-0 w-[30%]"
-        >
-          <ProductCard {...product} />
-        </motion.div>
+    <div className="   px-4 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+      {products.map((product) => (
+        <ProductCard
+          key={product.id || product._id}
+          id={product.id || product._id}
+          title={product.title}
+          image={product.image}
+          price={product.price}
+        />
       ))}
     </div>
   );

@@ -1,3 +1,5 @@
+
+
 import React, { createContext, useState, useEffect } from "react";
 
 export const CartContext = createContext();
@@ -16,23 +18,25 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = (product) => {
     setCart((prev) => {
-      const existing = prev.find((item) => item._id === product._id);
+      const existing = prev.find((item) => item.id === product.id);
       if (existing) {
         return prev.map((item) =>
-          item._id === product._id ? { ...item, qty: item.qty + 1 } : item
+          item.id === product._id ? { ...item, qty: item.qty + 1 } : item
         );
       }
       return [...prev, { ...product, qty: 1 }];
     });
   };
 
+  // Remove entire item from cart
   const removeFromCart = (id) => {
-    setCart((prev) => prev.filter((item) => item._id !== id));
+    setCart((prev) => prev.filter((item) => item.id !== id));
   };
 
   const updateQuantity = (id, qty) => {
+    if (qty < 1) return; // Prevent quantity less than 1
     setCart((prev) =>
-      prev.map((item) => (item._id === id ? { ...item, qty: Math.max(1, qty) } : item))
+      prev.map((item) => (item.id === id ? { ...item, qty } : item))
     );
   };
 

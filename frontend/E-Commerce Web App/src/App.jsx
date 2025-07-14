@@ -11,12 +11,14 @@ import PrivateRoute from "./components/PrivateRoute";
 import Layoutwrapper from "./components/Layout/Layoutwrapper";
 import ProductListPage from "./pages/ProductListPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
+import { CartProvider } from "./context/CartContext";
+import CartPage from "./pages/CardPages";
 
-import { CartContext } from "./context/CartContext";
+
 
 const App = () => {
   return (
-    <CartContext>
+    <CartProvider>
       <Router>
         <Routes>
           {/* Public routes */}
@@ -39,17 +41,28 @@ const App = () => {
             element={
               <PrivateRoute>
                 <Layoutwrapper>
-                  <ProductDetailPage testId={1} />
+                  <ProductDetailPage />
                 </Layoutwrapper>
               </PrivateRoute>
             }
           />
 
+          <Route
+  path="/cart"
+  element={
+    <PrivateRoute>
+      <Layoutwrapper>
+        <CartPage />
+      </Layoutwrapper>
+    </PrivateRoute>
+  }
+/>
+
           {/* Fallback */}
           <Route path="*" element={<Login />} />
         </Routes>
       </Router>
-    </CartContext>
+    </CartProvider>
   );
 };
 
