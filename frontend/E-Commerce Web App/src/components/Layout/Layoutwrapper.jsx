@@ -10,12 +10,12 @@ const Layoutwrapper = ({ children }) => {
       {/* Header Section */}
       <Header />
 
-      <div className="flex flex-1 overflow-hidden">
+      <div >
         {/* Sidebar Section */}
         {/* <Sidebar /> */}
 
         {/* Main Content Section (Right Side) */}
-        <main className="flex-1 p-6 sm:p-8 overflow-auto bg-lightBackground dark:bg-darkBackground transition-all duration-300">
+        <main className="flex-1  overflow-auto bg-lightBackground dark:bg-darkBackground transition-all duration-300">
           {/* Here will go the dynamic content like Dashboard, Products, Orders, etc. */}
           {children}
         </main>

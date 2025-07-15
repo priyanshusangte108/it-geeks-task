@@ -13,7 +13,7 @@ const ImageSection = () => {
   ];
 
   return (
-    <div className="w-full flex justify-center items-center gap-8 px-6 py-10">
+    <div className="w-full flex justify-center items-center gap-8 px-6 ">
       {images.map((image, index) => (
         <div
           key={index}

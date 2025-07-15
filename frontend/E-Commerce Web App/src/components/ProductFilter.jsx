@@ -1,8 +1,13 @@
 
-
 import React, { useState, useRef, useEffect } from 'react';
 
-const ProductFilter = ({ categories, selectedCategory, onCategoryChange, searchTerm, onSearchChange }) => {
+const ProductFilter = ({
+  categories,
+  selectedCategory,
+  onCategoryChange,
+  searchTerm,
+  onSearchChange
+}) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -20,16 +25,26 @@ const ProductFilter = ({ categories, selectedCategory, onCategoryChange, searchT
     <div className="max-w-4xl mx-auto p-6">
       <h2 className="text-2xl font-semibold mb-6 text-center">Filter Products</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Category Dropdown */}
         <div ref={dropdownRef} className="relative">
           <label className="block text-lg font-medium mb-2">Category</label>
           <button
             onClick={() => setDropdownOpen(prev => !prev)}
             className="w-full h-16 px-5 text-lg border rounded-lg bg-white shadow-sm text-left"
           >
-            {selectedCategory === 'all' ? 'Select Category' : selectedCategory}
+            {selectedCategory === 'all' ? 'All Categories' : selectedCategory}
           </button>
           {dropdownOpen && (
             <ul className="absolute z-10 mt-2 w-full bg-white border rounded-md shadow-lg max-h-64 overflow-auto text-lg">
+              <li
+                className={`py-3 px-5 cursor-pointer ${selectedCategory === 'all' ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'}`}
+                onClick={() => {
+                  onCategoryChange('all');
+                  setDropdownOpen(false);
+                }}
+              >
+                All Categories
+              </li>
               {categories.map(cat => (
                 <li
                   key={cat}
@@ -46,6 +61,7 @@ const ProductFilter = ({ categories, selectedCategory, onCategoryChange, searchT
           )}
         </div>
 
+        {/* Search Bar */}
         <form onSubmit={e => e.preventDefault()}>
           <label className="block text-lg font-medium mb-2">Search</label>
           <div className="relative h-16">
