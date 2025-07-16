@@ -54,7 +54,7 @@ const ProductListPage = () => {
       
       {/* Grid Layout for Product Cards */}
       {filtered.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 px-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 px-8">
           {filtered.map(product => (
             <ProductCard key={product.id} {...product} />
           ))}

@@ -1,5 +1,5 @@
 
-
+// src/pages/CartPage.jsx
 import React, { useContext } from "react";
 import { CartContext } from "../context/CartContext";
 import axios from "axios";
@@ -10,14 +10,22 @@ const CartPage = () => {
   const total = cart.reduce((acc, item) => acc + item.price * item.qty, 0);
 
   const handleCheckout = async () => {
-    try {
-      const res = await axios.post("/api/checkout", {
-        cartItems: cart,
-      });
+    if (cart.length === 0) {
+      alert("Your cart is empty.");
+      return;
+    }
 
-      // Redirect to Stripe Checkout
-      if (res.data && res.data.url) {
+    try {
+      // Send cart items to backend for checkout session creation
+      const res = await axios.post("/api/checkout", { cartItems: cart });
+
+      if (res.data?.url) {
+        // Redirect to Stripe checkout or payment page
         window.location.href = res.data.url;
+
+        // Do NOT clear cart here; wait for order success page to clear it
+      } else {
+        alert("Checkout failed: No payment URL returned.");
       }
     } catch (err) {
       console.error("Checkout error:", err);
@@ -42,7 +50,8 @@ const CartPage = () => {
       {/* Cart Items */}
       <div className="flex flex-col space-y-8">
         {cart.map(({ id, title, price, qty, images, image }) => {
-          const imgSrc = images?.[0]?.url || image || "https://via.placeholder.com/200x260?text=No+Image";
+          const imgSrc =
+            images?.[0]?.url || image || "https://via.placeholder.com/200x260?text=No+Image";
 
           return (
             <div
@@ -53,6 +62,9 @@ const CartPage = () => {
                 src={imgSrc}
                 alt={title}
                 className="w-[200px] h-[260px] object-cover rounded border"
+                onError={(e) => {
+                  e.target.src = "https://via.placeholder.com/200x260?text=No+Image";
+                }}
               />
 
               <div className="flex-1 min-w-[200px] ml-4">

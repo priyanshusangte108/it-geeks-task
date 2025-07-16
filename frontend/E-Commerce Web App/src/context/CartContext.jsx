@@ -5,42 +5,43 @@ import React, { createContext, useState, useEffect } from "react";
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    // Load cart from localStorage on init
+    const savedCart = localStorage.getItem("cart");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
 
   useEffect(() => {
-    const storedCart = localStorage.getItem("cart");
-    if (storedCart) setCart(JSON.parse(storedCart));
-  }, []);
-
-  useEffect(() => {
+    // Save cart to localStorage whenever it changes
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  const addToCart = (product) => {
-    setCart((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
+  const addToCart = (product, qty = 1) => {
+    setCart((prevCart) => {
+      const existing = prevCart.find((item) => item.id === product.id);
       if (existing) {
-        return prev.map((item) =>
-          item.id === product._id ? { ...item, qty: item.qty + 1 } : item
+        return prevCart.map((item) =>
+          item.id === product.id ? { ...item, qty: item.qty + qty } : item
         );
+      } else {
+        return [...prevCart, { ...product, qty }];
       }
-      return [...prev, { ...product, qty: 1 }];
     });
   };
 
-  // Remove entire item from cart
   const removeFromCart = (id) => {
-    setCart((prev) => prev.filter((item) => item.id !== id));
+    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
   };
 
   const updateQuantity = (id, qty) => {
-    if (qty < 1) return; // Prevent quantity less than 1
-    setCart((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, qty } : item))
+    setCart((prevCart) =>
+      prevCart.map((item) => (item.id === id ? { ...item, qty } : item))
     );
   };
 
-  const clearCart = () => setCart([]);
+  const clearCart = () => {
+    setCart([]);
+  };
 
   return (
     <CartContext.Provider
