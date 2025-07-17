@@ -1,27 +1,29 @@
-// src/components/Layout/LayoutWrapper.jsx
-import React from 'react';
+
+
+import React, { useState } from 'react';
 import Header from './Header';
+import Sidebar from './Sidebar';
 import Footer from './Footer';
-// import Sidebar from './Sidebar';
 
 const Layoutwrapper = ({ children }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => setSidebarOpen((prev) => !prev);
+  const closeSidebar = () => setSidebarOpen(false);
+
   return (
     <div className="flex flex-col min-h-screen bg-lightBackground dark:bg-darkBackground transition-all duration-300">
-      {/* Header Section */}
-      <Header />
+      <Header toggleSidebar={toggleSidebar} />
 
-      <div >
-        {/* Sidebar Section */}
-        {/* <Sidebar /> */}
+      <main
+        className="flex-1 overflow-auto bg-lightBackground dark:bg-darkBackground transition-all duration-300 p-4"
+        onClick={closeSidebar} // close sidebar if clicking main content
+      >
+        {children}
+      </main>
 
-        {/* Main Content Section (Right Side) */}
-        <main className="flex-1  overflow-auto bg-lightBackground dark:bg-darkBackground transition-all duration-300">
-          {/* Here will go the dynamic content like Dashboard, Products, Orders, etc. */}
-          {children}
-        </main>
-      </div>
+      <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />
 
-      {/* Footer Section */}
       <Footer />
     </div>
   );

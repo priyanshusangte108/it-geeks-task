@@ -1,6 +1,6 @@
+const order = require("../models/order");
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const Order = require("../models/Order");
 
 // Confirm Stripe order by sessionId
 exports.confirmOrder = async (req, res) => {
@@ -18,7 +18,7 @@ exports.confirmOrder = async (req, res) => {
     }
 
     // Check if order exists to prevent duplicates
-    const existingOrder = await Order.findOne({ sessionId });
+    const existingOrder = await order.findOne({ sessionId });
     if (existingOrder) {
       return res.status(200).json({ order: existingOrder });
     }
@@ -48,3 +48,4 @@ exports.createOrder = async (req, res) => {
   // Implement as per your requirements or remove if unused
   res.status(501).json({ message: "Create order not implemented" });
 };
+
