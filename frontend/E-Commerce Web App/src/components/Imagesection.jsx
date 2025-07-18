@@ -6,10 +6,10 @@ import Image4 from '../assets/image4.jpg';
 
 const ImageSection = () => {
   const images = [
-    { src: Image1, label: 'Modern Furniture' },
-    { src: Image2, label: 'Luxury Sofa' },
-    { src: Image3, label: 'Smart Lighting' },
-    { src: Image4, label: 'Elegant Decor' },
+    { src: Image1, label: 'Womens' },
+    { src: Image2, label: 'jewelery' },
+    { src: Image3, label: 'Mens' },
+    { src: Image4, label: 'electronics' },
   ];
 
   return (

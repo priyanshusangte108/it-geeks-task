@@ -20,17 +20,22 @@ import OrderSuccessPage from "./pages/OrderSuccessPage";
 
 import PrivateAdminRoute from "./routes/PrivateAdminRoute";
 import AdminLayout from "./components/admin/AdminLayout";
+
 import DashboardPage from "./pages/admin/DashboardPage";
 import ProductPage from "./pages/admin/ProductPage";
 import OrdersPage from "./pages/admin/OrdersPage";
+import UsersPage from "./pages/admin/UsersPage";
+import AnalyticsPage from "./pages/admin/AnalyticsPage";
 
 import { CartProvider } from "./context/CartContext";
 import { WishlistProvider } from "./context/WishlistContext";
 import WishlistPage from "./pages/WishListPage";
+import { ThemeProvider } from "./context/ThemeContext";
 
 const App = () => {
   return (
-    <CartProvider>
+     <ThemeProvider>
+          <CartProvider>
       <WishlistProvider>
         <Router>
           <Routes>
@@ -119,8 +124,7 @@ const App = () => {
                 </PrivateRoute>
               }
             />
-              
-               <Route
+            <Route
               path="/wishlist"
               element={
                 <PrivateRoute>
@@ -129,9 +133,29 @@ const App = () => {
                   </Layoutwrapper>
                 </PrivateRoute>
               }
-              />
+            />
+            <Route
+              path="/products"
+              element={
+                <PrivateRoute>
+                  <Layoutwrapper>
+                    <ProductPage />
+                  </Layoutwrapper>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/orders"
+              element={
+                <PrivateRoute>
+                  <Layoutwrapper>
+                    <OrdersPage />
+                  </Layoutwrapper>
+                </PrivateRoute>
+              }
+            />
 
-            {/* Admin routes */}
+            {/* Admin routes with nested routes */}
             <Route
               path="/admin/*"
               element={
@@ -140,18 +164,22 @@ const App = () => {
                 </PrivateAdminRoute>
               }
             >
+              {/* Default admin dashboard */}
               <Route index element={<DashboardPage />} />
               <Route path="dashboard" element={<DashboardPage />} />
               <Route path="products" element={<ProductPage />} />
               <Route path="orders" element={<OrdersPage />} />
+              <Route path="users" element={<UsersPage />} />
+              <Route path="analytics" element={<AnalyticsPage />} />
             </Route>
 
-            {/* Fallback */}
+            {/* Fallback route */}
             <Route path="*" element={<Login />} />
           </Routes>
         </Router>
       </WishlistProvider>
     </CartProvider>
+     </ThemeProvider>
   );
 };
 

@@ -15,7 +15,7 @@ const userRoutes = require("./routes/userRoutes");
 const order = require("./routes/order");
 const adminRoutes = require("./routes/adminRoutes")
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 2020;
 
 // Body parser middleware
 app.use(express.json());

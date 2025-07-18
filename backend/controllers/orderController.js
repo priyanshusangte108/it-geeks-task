@@ -43,9 +43,25 @@ exports.confirmOrder = async (req, res) => {
   }
 };
 
-// Placeholder for createOrder if needed (not shown in your snippet)
-exports.createOrder = async (req, res) => {
-  // Implement as per your requirements or remove if unused
-  res.status(501).json({ message: "Create order not implemented" });
+// // Placeholder for createOrder if needed (not shown in your snippet)
+// exports.createOrder = async (req, res) => {
+//   // Implement as per your requirements or remove if unused
+//   res.status(501).json({ message: "Create order not implemented" });
+// };
+
+
+exports.getOrders = async (req, res) => {
+  try {
+    const isAdmin = req.user.role === 'admin';
+
+    const orders = isAdmin
+      ? await order.find().populate('user', 'name email')
+      : await order.find({ user: req.user._id });
+
+    res.status(200).json({ orders });
+  } catch (error) {
+    console.error('Error fetching orders:', error.message);
+    res.status(500).json({ error: 'Failed to fetch orders.' });
+  }
 };
 

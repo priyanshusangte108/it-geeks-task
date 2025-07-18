@@ -1,3 +1,5 @@
+
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
@@ -18,58 +20,60 @@ const Login = () => {
       localStorage.setItem('token', data.token);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err.response?.data?.message || 'Login failed. Please try again.');
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600 p-6">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 to-indigo-700 px-4">
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="bg-white w-full max-w-md p-8 rounded-xl shadow-xl"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">Login to Your Account</h2>
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login to Your Account</h2>
 
         {error && (
-          <div className="bg-red-100 text-red-700 p-3 rounded mb-4">{error}</div>
+          <div className="bg-red-100 text-red-700 p-3 rounded mb-4 text-sm text-center">
+            {error}
+          </div>
         )}
 
-       <form onSubmit={handleSubmit} className="flex flex-col items-center">
-  <motion.input
-    type="email"
-    placeholder="Email"
-    required
-    value={email}
-    onChange={e => setEmail(e.target.value)}
-    whileFocus={{ scale: 1.05, boxShadow: '0 0 8px rgb(59 130 246)' }}
-    className="w-1/2 px-4  py-3 border border-gray-300 rounded focus:outline-none mt-5 mb-3"
-  />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <motion.input
+            type="email"
+            placeholder="Email"
+            required
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            whileFocus={{ scale: 1.02 }}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          />
 
-  <motion.input
-    type="password"
-    placeholder="Password"
-    required
-    value={password}
-    onChange={e => setPassword(e.target.value)}
-    whileFocus={{ scale: 1.05, boxShadow: '0 0 8px rgb(59 130 246)' }}
-    className="w-1/2 px-4 py-3 border border-gray-300 rounded focus:outline-none mb-5"
-  />
+          <motion.input
+            type="password"
+            placeholder="Password"
+            required
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            whileFocus={{ scale: 1.02 }}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          />
 
-  <motion.button
-    type="submit"
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
-    className="w-1/2   bg-blue-600 text-white py-3 rounded font-semibold shadow-md hover:bg-blue-700 transition mb-5"
-  >
-    Login
-  </motion.button>
-</form>
+          <motion.button
+            type="submit"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition"
+          >
+            Login
+          </motion.button>
+        </form>
 
-        <p className="mt-6 text-center text-gray-600">
-          Don't have an account?{' '}
-          <Link to="/register" className="text-blue-600 hover:underline">
+        <p className="mt-6 text-center text-sm text-gray-600">
+          Don’t have an account?{' '}
+          <Link to="/register" className="text-blue-600 hover:underline font-medium">
             Register here
           </Link>
         </p>
