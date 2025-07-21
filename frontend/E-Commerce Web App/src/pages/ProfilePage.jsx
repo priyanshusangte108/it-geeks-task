@@ -1,4 +1,3 @@
-
 // src/pages/ProfilePage.jsx
 import React, { useContext, useEffect, useState } from 'react';
 import { CartContext } from '../context/CartContext';
@@ -6,7 +5,7 @@ import { WishlistContext } from '../context/WishlistContext';
 import api from '../services/api';
 
 const ProfilePage = () => {
-  const { cart, addToCart } = useContext(CartContext);
+  const { cart, addToCart, removeFromCart } = useContext(CartContext);
   const { wishlist, removeFromWishlist } = useContext(WishlistContext);
 
   const [user, setUser] = useState(null);
@@ -59,25 +58,25 @@ const ProfilePage = () => {
     <div className="max-w-5xl mx-auto p-6 space-y-10 transition-colors duration-300 text-gray-900 dark:text-gray-100">
       <h1 className="text-3xl font-bold">Your Profile</h1>
 
-      <div className="bg-white dark:bg-gray-800 p-4 rounded shadow transition-colors duration-300">
+      <div className="bg-white dark:bg-gray-800 p-4 rounded shadow">
         {user ? (
           <>
-            <p><strong className="font-semibold">Name:</strong> {user.name}</p>
-            <p><strong className="font-semibold">Email:</strong> {user.email}</p>
-            <p><strong className="font-semibold">Role:</strong> {user.role || 'customer'}</p>
+            <p><strong>Name:</strong> {user.name}</p>
+            <p><strong>Email:</strong> {user.email}</p>
+            <p><strong>Role:</strong> {user.role || 'customer'}</p>
           </>
         ) : (
           <p>Loading user...</p>
         )}
       </div>
 
-      {/* Wishlist */}
+      {/* Wishlist Section */}
       <section>
         <h2 className="text-2xl font-semibold mb-4">❤️ Wishlist</h2>
         {wishItems.length ? (
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {wishItems.map(p => (
-              <li key={p._id || p.id} className="bg-white dark:bg-gray-800 rounded shadow p-4 flex flex-col transition-colors duration-300">
+              <li key={p._id || p.id} className="bg-white dark:bg-gray-800 rounded shadow p-4 flex flex-col">
                 <img
                   src={p.images?.[0]?.url || p.image || 'https://placehold.co/200'}
                   alt={p.title}
@@ -103,16 +102,27 @@ const ProfilePage = () => {
         )}
       </section>
 
-      {/* Cart */}
+      {/* Cart Section */}
       <section>
         <h2 className="text-2xl font-semibold mb-4">🛒 Cart</h2>
         {cartItems.length ? (
           <>
             <ul className="divide-y dark:divide-gray-700 mb-4">
               {cartItems.map(item => (
-                <li key={item._id || item.id} className="py-3 flex justify-between items-center">
-                  <span>{item.title} × {item.qty}</span>
-                  <span>${((item.price ?? 0) * item.qty).toFixed(2)}</span>
+                <li key={item._id || item.id} className="py-4 flex justify-between items-center">
+                  <div>
+                    <span>{item.title} × {item.qty}</span>
+                    <p className="text-sm text-gray-500">${(item.price ?? 0).toFixed(2)} each</p>
+                  </div>
+                  <div className="flex gap-4 items-center">
+                    <span className="font-semibold">${((item.price ?? 0) * item.qty).toFixed(2)}</span>
+                    <button
+                      onClick={() => removeFromCart(item._id || item.id)}
+                      className="text-sm bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>

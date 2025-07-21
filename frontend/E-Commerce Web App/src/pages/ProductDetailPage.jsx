@@ -12,7 +12,9 @@ const ProductDetailPage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const { addToCart } = useContext(CartContext);
+  const [quantity, setQuantity] = useState(1);
+
+  const { cart, addToCart, updateQuantity } = useContext(CartContext);
 
   useEffect(() => {
     if (!id) return;
@@ -36,8 +38,18 @@ const ProductDetailPage = () => {
   }, [id]);
 
   const handleAddToCart = () => {
-    addToCart(product);
-    alert(`Added "${product.title}" to cart!`);
+    if (!product) return;
+
+    const existingItem = cart.find(item => item.id === product.id);
+
+    if (existingItem) {
+      updateQuantity(product.id, existingItem.qty + quantity);
+    } else {
+      addToCart({ ...product, qty: quantity });
+    }
+
+    // Optionally reset quantity
+    setQuantity(1);
   };
 
   if (loading) return <div className="p-6">Loading product...</div>;
@@ -65,7 +77,9 @@ const ProductDetailPage = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.3 }}
-                  onError={(e) => { e.target.src = "https://via.placeholder.com/500?text=No+Image"; }}
+                  onError={(e) => {
+                    e.target.src = "https://via.placeholder.com/500?text=No+Image";
+                  }}
                 />
               ) : (
                 <div className="w-full h-[400px] md:h-[500px] bg-gray-200 flex items-center justify-center rounded-lg">
@@ -82,15 +96,18 @@ const ProductDetailPage = () => {
                     key={i}
                     src={url}
                     alt={`Thumb ${i + 1}`}
-                    className={`w-16 h-16 object-cover rounded-md cursor-pointer border-2 ${selectedImage === url ? "border-blue-700" : "border-transparent"}`}
+                    className={`w-16 h-16 object-cover rounded-md cursor-pointer border-2 ${
+                      selectedImage === url ? "border-blue-700" : "border-transparent"
+                    }`}
                     onClick={() => setSelectedImage(url)}
-                    onError={(e) => { e.target.src = "https://via.placeholder.com/64?text=No"; }}
+                    onError={(e) => {
+                      e.target.src = "https://via.placeholder.com/64?text=No";
+                    }}
                   />
                 );
               })}
             </div>
 
-            {/* View Image Button */}
             {selectedImage && (
               <button
                 onClick={() => setShowModal(true)}
@@ -115,6 +132,33 @@ const ProductDetailPage = () => {
               </p>
             </div>
 
+            {/* Quantity Controls */}
+            <div className="flex items-center gap-3 mb-6">
+              <button
+                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                className="w-8 h-8 bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-white rounded hover:bg-gray-400"
+              >
+                –
+              </button>
+              <input
+                type="number"
+                min="1"
+                value={quantity}
+                onChange={(e) => {
+                  const val = parseInt(e.target.value);
+                  setQuantity(isNaN(val) ? 1 : Math.max(1, val));
+                }}
+                className="w-12 text-center border rounded text-gray-800 dark:bg-gray-900 dark:text-white"
+              />
+              <button
+                onClick={() => setQuantity((q) => q + 1)}
+                className="w-8 h-8 bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-white rounded hover:bg-gray-400"
+              >
+                +
+              </button>
+            </div>
+
+            {/* Add to Cart Button */}
             <motion.button
               onClick={handleAddToCart}
               className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-700 rounded hover:bg-blue-800 focus:outline-none focus:ring focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700"

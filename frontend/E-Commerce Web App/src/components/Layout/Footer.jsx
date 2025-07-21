@@ -1,60 +1,93 @@
-
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
-    window.location.href = '/login';
+    window.location.href = "/dashboard"; // Redirects only on logout
   };
 
   return (
-    <footer className="bg-darkBackground dark:bg-lightBackground text-white dark:text-gray-900 transition-all duration-300 border-t border-gray-700 dark:border-gray-300 mt-12">
-      <div className="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-center md:items-start space-y-8 md:space-y-0">
-          
-          {/* App Info */}
-          <div className="text-center md:text-left max-w-xs">
-            <h2 className="text-xl font-semibold text-blue-400 dark:text-blue-600">
-              E-Commerce Store
-            </h2>
-            <p className="mt-2 text-sm text-white dark:text-gray-800">
-              Your one-stop shop for electronics, fashion, home goods, and more. We deliver quality products with fast shipping and reliable service.
-            </p>
-          </div>
+    <footer className="bg-gray-900 text-white dark:bg-gray-100 dark:text-black mt-16 border-t border-gray-700 dark:border-gray-300 transition-all duration-300">
+      <div className="max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10">
+        
+        {/* Store Info */}
+        <div>
+          <h2 className="text-xl font-bold mb-3 text-blue-400">E-Commerce Store</h2>
+          <p className="text-sm">
+            Your one-stop shop for fashion, electronics, groceries and more. Fast delivery & quality guaranteed.
+          </p>
+        </div>
 
-          {/* Navigation Links */}
-          <div className="flex flex-col items-center space-y-2 md:space-y-4">
-            <Link to="/profile" className="hover:text-blue-500 transition text-white dark:text-gray-900">👤 Profile</Link>
-            <Link to="/cart" className="hover:text-blue-500 transition text-white dark:text-gray-900">🛒 Cart</Link>
-            <Link to="/wishlist" className="hover:text-blue-500 transition text-white dark:text-gray-900">❤️ Wishlist</Link>
-            <Link to="/orders" className="hover:text-blue-500 transition text-white dark:text-gray-900">📦 Orders</Link>
-          </div>
+        {/* Quick Links */}
+        <div>
+          <h3 className="text-lg font-semibold mb-2">Shop</h3>
+          <ul className="space-y-2">
+            <li><Link to="/dashboard" className="hover:text-blue-400">Shop</Link></li>
+            <li><Link to="/dashboard" className="hover:text-blue-400">Sale</Link></li>
+            <li><Link to="/dashboard" className="hover:text-blue-400">Customer Care</Link></li>
+            <li><Link to="/dashboard" className="hover:text-blue-400">Stores</Link></li>
+          </ul>
+        </div>
 
-          {/* Logout and Legal Links */}
-          <div className="flex flex-col items-center space-y-3 md:items-end">
+        {/* Account */}
+        <div>
+          <h3 className="text-lg font-semibold mb-2">My Account</h3>
+          <ul className="space-y-2">
+            <li><Link to="/profile" className="hover:text-blue-400">👤 Profile</Link></li>
+            <li><Link to="/cart" className="hover:text-blue-400">🛒 Cart</Link></li>
+            <li><Link to="/wishlist" className="hover:text-blue-400">❤️ Wishlist</Link></li>
+            <li><Link to="/orders" className="hover:text-blue-400">📦 Orders</Link></li>
+            <li>
+              <button
+                onClick={handleLogout}
+                className="text-left text-red-500 hover:text-red-600"
+              >
+                🚪 Logout
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        {/* Contact & Newsletter */}
+        <div>
+          <h3 className="text-lg font-semibold mb-2">Stay Connected</h3>
+          <p className="text-sm mb-2">📞 +1 (385) 240-2913</p>
+          <p className="text-sm mb-4">✉️ sales@itgeeks.com</p>
+
+          <form className="flex flex-col space-y-2">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="px-3 py-2 rounded text-black"
+            />
             <button
-              onClick={handleLogout}
-              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm"
+              type="submit"
+              className="bg-blue-600 text-white px-3 py-2 rounded hover:bg-blue-700"
             >
-              Logout
+              Subscribe
             </button>
-            <div className="flex space-x-4 text-sm mt-2 text-white dark:text-gray-900">
-              <Link to="#" className="hover:text-blue-500">Terms</Link>
-              <Link to="#" className="hover:text-blue-500">Privacy</Link>
-              <Link to="#" className="hover:text-blue-500">Support</Link>
-            </div>
+          </form>
+
+          {/* Socials */}
+          <div className="flex space-x-4 mt-4 text-sm">
+            <Link to="#" className="hover:text-blue-400">Facebook</Link>
+            <Link to="#" className="hover:text-blue-400">Instagram</Link>
+            <Link to="#" className="hover:text-blue-400">Twitter</Link>
+            <Link to="#" className="hover:text-blue-400">YouTube</Link>
           </div>
         </div>
+      </div>
 
-        {/* Copyright */}
-        <div className="mt-8 text-center text-xs text-gray-400 dark:text-gray-700">
-          &copy; {new Date().getFullYear()} E-Commerce Store. All rights reserved.
-        </div>
+      {/* Copyright */}
+      <div className="text-center text-xs text-gray-400 dark:text-gray-600 py-4 border-t border-gray-700 dark:border-gray-300">
+        &copy; {new Date().getFullYear()} E-Commerce Store. All rights reserved.
       </div>
     </footer>
   );
 };
 
 export default Footer;
+
+
+

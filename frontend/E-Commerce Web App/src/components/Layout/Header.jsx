@@ -64,7 +64,7 @@ const Header = ({ toggleSidebar }) => {
             ☰
           </button>
 
-          {/* 🌗 Theme Toggle Button */}
+          {/*  Theme Toggle Button */}
           <button
             onClick={toggleTheme}
             className="text-xl bg-gray-900 px-3 py-1 rounded hover:bg-gray-700"

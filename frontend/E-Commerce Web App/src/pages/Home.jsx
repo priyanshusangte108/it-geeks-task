@@ -6,7 +6,7 @@ import ProductListPage from "./ProductListPage"; // Reuse existing list page
 
 const Home = () => {
   return (
-    <div>
+    <div className="w-full">
      
       <ProductListPage />
     </div>

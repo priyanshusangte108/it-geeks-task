@@ -43,13 +43,6 @@ exports.confirmOrder = async (req, res) => {
   }
 };
 
-// // Placeholder for createOrder if needed (not shown in your snippet)
-// exports.createOrder = async (req, res) => {
-//   // Implement as per your requirements or remove if unused
-//   res.status(501).json({ message: "Create order not implemented" });
-// };
-
-
 exports.getOrders = async (req, res) => {
   try {
     const isAdmin = req.user.role === 'admin';
