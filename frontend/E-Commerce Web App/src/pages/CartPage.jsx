@@ -1,8 +1,9 @@
 
-// src/pages/CartPage.jsx
+
 import React, { useContext } from "react";
 import { CartContext } from "../context/CartContext";
 import axios from "axios";
+import { motion } from "framer-motion";
 
 const CartPage = () => {
   const { cart, removeFromCart, updateQuantity, clearCart } = useContext(CartContext);
@@ -16,14 +17,10 @@ const CartPage = () => {
     }
 
     try {
-      // Send cart items to backend for checkout session creation
       const res = await axios.post("/api/checkout", { cartItems: cart });
 
       if (res.data?.url) {
-        // Redirect to Stripe checkout or payment page
         window.location.href = res.data.url;
-
-        // Do NOT clear cart here; wait for order success page to clear it
       } else {
         alert("Checkout failed: No payment URL returned.");
       }
@@ -35,29 +32,42 @@ const CartPage = () => {
 
   if (cart.length === 0) {
     return (
-      <div className="p-8 max-w-3xl mx-auto text-center text-gray-700 dark:text-gray-300">
+      <motion.div
+        className="p-8 max-w-3xl mx-auto text-center text-gray-700 dark:text-gray-300"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4 }}
+      >
         Your cart is empty.
-      </div>
+      </motion.div>
     );
   }
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
+    <motion.div
+      className="max-w-5xl mx-auto p-6"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <h1 className="text-3xl font-semibold mb-6 text-gray-800 dark:text-white">
-        Shopping Cart
+        🛒 Shopping Cart
       </h1>
 
       {/* Cart Items */}
       <div className="flex flex-col space-y-8">
         {cart.map(({ id, title, price, qty, images, image }) => {
-          const imgSrc =
-            images?.[0]?.url || image || "https://via.placeholder.com/200x260?text=No+Image";
+          const imgSrc = images?.[0]?.url || image || "https://via.placeholder.com/200x260?text=No+Image";
 
           return (
-            <div
+            <motion.div
               key={id}
-              className="bg-white dark:bg-gray-800 rounded border shadow p-6 flex flex-wrap items-center justify-between gap-6"
+              className="bg-white dark:bg-gray-800 rounded-lg border shadow p-6 flex flex-wrap items-center justify-between gap-6"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
             >
+              {/* Product Image */}
               <img
                 src={imgSrc}
                 alt={title}
@@ -67,13 +77,15 @@ const CartPage = () => {
                 }}
               />
 
+              {/* Info Section */}
               <div className="flex-1 min-w-[200px] ml-4">
                 <h2 className="text-xl font-bold text-gray-800 dark:text-white">{title}</h2>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+                <p className="text-2xl font-bold text-gray-900 dark:text-white mt-2">
                   ${price.toFixed(2)} each
                 </p>
               </div>
 
+              {/* Quantity + Remove */}
               <div className="flex flex-col items-center min-w-[160px]">
                 <div className="flex items-center gap-2">
                   <button
@@ -83,6 +95,7 @@ const CartPage = () => {
                   >
                     –
                   </button>
+
                   <input
                     type="number"
                     min="1"
@@ -92,6 +105,7 @@ const CartPage = () => {
                     }
                     className="w-12 text-center border rounded text-gray-800 dark:bg-gray-900 dark:text-white"
                   />
+
                   <button
                     onClick={() => updateQuantity(id, qty + 1)}
                     className="w-8 h-8 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded hover:bg-gray-300"
@@ -108,10 +122,11 @@ const CartPage = () => {
                 </button>
               </div>
 
+              {/* Subtotal */}
               <p className="w-24 text-right font-bold text-gray-900 dark:text-white text-lg">
                 ${(price * qty).toFixed(2)}
               </p>
-            </div>
+            </motion.div>
           );
         })}
       </div>
@@ -122,7 +137,7 @@ const CartPage = () => {
           onClick={clearCart}
           className="px-6 py-3 bg-red-600 text-white rounded hover:bg-red-700 text-lg font-bold"
         >
-          Clear Cart
+          🗑️ Clear Cart
         </button>
 
         <div className="text-4xl font-extrabold text-gray-900 dark:text-white">
@@ -132,14 +147,16 @@ const CartPage = () => {
 
       {/* Checkout Button */}
       <div className="mt-6 text-right">
-        <button
+        <motion.button
           onClick={handleCheckout}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           className="px-8 py-3 bg-indigo-600 text-white text-xl font-bold rounded hover:bg-indigo-700 transition"
         >
           Proceed to Checkout
-        </button>
+        </motion.button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
