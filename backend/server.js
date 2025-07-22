@@ -1,12 +1,10 @@
 
-
 const express = require("express");
 const connectdb = require("./config/db-config");
 const dotenv = require("dotenv");
 dotenv.config();
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-
 const productroute = require("./routes/productroute");
 const authroutes = require("./routes/authroutes");
 const { authenticate } = require("./middleware/authMiddleware");
