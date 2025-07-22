@@ -1,5 +1,4 @@
 
-
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -45,7 +44,7 @@ const App = () => {
 
             {/* User protected routes */}
             <Route
-              path="/"
+             path="/dashboard"
               element={
                 <PrivateRoute>
                   <Layoutwrapper>
@@ -54,16 +53,7 @@ const App = () => {
                 </PrivateRoute>
               }
             />
-            <Route
-              path="/dashboard"
-              element={
-                <PrivateRoute>
-                  <Layoutwrapper>
-                    <ProductListPage />
-                  </Layoutwrapper>
-                </PrivateRoute>
-              }
-            />
+           
             <Route
               path="/products/:id"
               element={
