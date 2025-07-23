@@ -7,8 +7,6 @@ import Register from "./pages/Register";
 
 import PrivateRoute from "./components/PrivateRoute";
 import Layoutwrapper from "./components/Layout/Layoutwrapper";
-
-import ProductListPage from "./pages/ProductListPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
 import Home from "./pages/Home";

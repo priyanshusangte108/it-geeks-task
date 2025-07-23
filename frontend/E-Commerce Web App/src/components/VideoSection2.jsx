@@ -15,7 +15,7 @@ const VideoSection2 = () => {
             muted
             loop
             playsInline
-            controls={false} // Hide all player UI
+             // Hide all player UI
           />
         </div>
 
